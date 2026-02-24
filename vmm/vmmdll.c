@@ -2634,6 +2634,23 @@ LPSTR VMMDLL_ProcessGetInformationString(_In_ VMM_HANDLE H, _In_ DWORD dwPID, _I
 }
 
 _Success_(return)
+BOOL VMMDLL_ProcessGetDTB_Impl(_In_ VMM_HANDLE H, _In_ DWORD dwPID, _Out_ PULONG64 pqwDTB)
+{
+    PVMM_PROCESS pObProcess = NULL;
+    if(!pqwDTB) { return FALSE; }
+    if(!(pObProcess = VmmProcessGet(H, dwPID))) { return FALSE; }
+    *pqwDTB = pObProcess->paDTB;
+    Ob_DECREF(pObProcess);
+    return TRUE;
+}
+
+_Success_(return)
+BOOL VMMDLL_ProcessGetDTB(_In_ VMM_HANDLE H, _In_ DWORD dwPID, _Out_ PULONG64 pqwDTB)
+{
+    CALL_IMPLEMENTATION_VMM(H, STATISTICS_ID_VMMDLL_ProcessGetDTB, VMMDLL_ProcessGetDTB_Impl(H, dwPID, pqwDTB))
+}
+
+_Success_(return)
 BOOL VMMDLL_ProcessGet_Sections_Impl(_In_ VMM_HANDLE H, _In_ DWORD dwPID, _In_ LPCSTR uszModule, _Out_writes_opt_(cSections) PIMAGE_SECTION_HEADER pSections, _In_ DWORD cSections, _Out_ PDWORD pcSections)
 {
     BOOL fResult = FALSE;

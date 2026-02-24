@@ -2521,6 +2521,16 @@ EXPORTED_FUNCTION _Success_(return != NULL)
 LPSTR VMMDLL_ProcessGetInformationString(_In_ VMM_HANDLE hVMM, _In_ DWORD dwPID, _In_ DWORD fOptionString);
 
 /*
+* Retrieve the directory table base (DTB/CR3) physical address for a process.
+* -- hVMM
+* -- dwPID
+* -- pqwDTB = ptr to receive the DTB physical address on success.
+* -- return = success/fail.
+*/
+EXPORTED_FUNCTION _Success_(return)
+BOOL VMMDLL_ProcessGetDTB(_In_ VMM_HANDLE hVMM, _In_ DWORD dwPID, _Out_ PULONG64 pqwDTB);
+
+/*
 * Retrieve information about: Data Directories, Sections, Export Address Table
 * and Import Address Table (IAT).
 * If the pData == NULL upon entry the number of entries of the pData array must
